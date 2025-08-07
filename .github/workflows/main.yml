@@ -1,0 +1,30 @@
+name: 'Banco Web - CI'
+
+# triggers
+on: 
+  workflow_dispatch:
+
+jobs:
+  tests:
+    runs-on: ubunto-latest
+
+    env:
+      API_BASE_URL: 'http://localhost:3000'
+      PORT: 4000
+
+    steps:
+      - name: Checkout do repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar as dependencias
+        run: npm install
+
+      - name: Iniciar o servidor de mocks
+        run: npm run mock-server
+        
+      - name: Iniciar o servidor de aplicação
+        run: npm run server
+
+      - name: Executar os testes
+        run: npx cypress run
+        
